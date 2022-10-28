@@ -1,0 +1,1 @@
+Pequeña aplicación para conexión de PLC con ordenador mediante consola.
