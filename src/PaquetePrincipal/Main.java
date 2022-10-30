@@ -13,7 +13,7 @@ public class Main {
     private static byte[] Buffer = new byte[65536]; //64K buffer
     private static final S7Client Cliente = new S7Client();
     
-    private static String DireccionIP = "192.168.0.253";    // IP asignada al PLC.
+    private static String DireccionIP = "192.168.1.253";    // IP asignada al PLC.
     private static int Rack = 0;                            // Rack en el que está ubicado el PLC.
     private static int Slot = 0;                            // Slot en el que se ubica el PLC.
     private static int DB = 1;                              // DB de la que se quieren extraer datos.
@@ -45,14 +45,17 @@ public class Main {
             DireccionIP = args[0];
             Rack = Integer.valueOf(args[1]);
             Slot = Integer.valueOf(args[2]);
+            Connect();
         }
 
 
-    	if (Connect() && args.length != 3) 
+    	if (args.length != 3) 
     	{
-            int Result = Cliente.ReadArea(S7.S7AreaDB, DB, 0, 528, Buffer);     // Clase para leer los datos del DB seleccionado
-            System.out.println(S7.GetBitAt(Buffer, 268, 1));                         // La clase S7 tiene métodos de ayuda para traducir los datos del buffer
-            Cliente.Disconnect();
+            if(Connect()){
+                int Result = Cliente.ReadArea(S7.S7AreaDB, DB, 0, 528, Buffer);     // Clase para leer los datos del DB seleccionado
+                System.out.println(S7.GetBitAt(Buffer, 268, 1));                         // La clase S7 tiene métodos de ayuda para traducir los datos del buffer
+                Cliente.Disconnect();
+            }
     	}
     }
 }
